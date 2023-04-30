@@ -21,6 +21,7 @@ The following image represents the system flow graphically.
 This system should have five classes: `Main`, `VotingManagement`, `Person`, `CandidatePerson`, and `VoterPerson`. Each of them is described below:
 
 - `Main`: This class should contain the `main` method, which in turn should contain (I) an instance of the `VotingManagement` class, (II) an instance of the Scanner class to read user input from the console, and (III) three loops that represent the application's menus. The first loop should contain the menu for registering candidate people, the second should contain the menu for registering voter people, and the third should contain the menu for voting, viewing partial results, and finalizing the vote.
+
   - The menu for the first loop should have the following format:
 
 ```
@@ -136,14 +137,14 @@ Assuming we have only one candidate, Maria, and one voter, João, and João vote
 
 ```
    Entre com o número correspondente à opção desejada:
-   1 - Votar
-   2 - Resultado Parcial
-   3 - Finalizar Votação
+   1 - Vote
+   2 - Partial Result
+   3 - Finish Voting
    3
 
-   Resultado da votação:
-   Nome: Maria - 1 votos ( 100.0% )
-   Total de votos: 1
+   Voting result:
+   Name: Maria - 1 votes ( 100.0% )
+   Total votes: 1
 ```
 
 The following figure shows the repetition loops:
@@ -168,53 +169,53 @@ This class should also contain at least five methods, where four are public and 
 
 - `vote`: This public method should receive two parameters: the `voterPersonCPF` and the `candidatePersonNumber`. The `voterPersonCPF` parameter is of type String, and the `candidatePersonNumber` parameter is of type integer. This method should check if the CPF of the voter person is already inserted in the `computedCPF` array and, if it is, it should print the message `Voter person already voted!` on the console. Otherwise, it should loop through the `candidatePeople` array to find the object of the candidate person that has the number passed by the `candidatePersonNumber` parameter. When it finds the object that represents the candidate person, it should call the receiveVote method of the object of the `CandidatePerson` class. Finally, it should insert the CPF of the voter person in the `computedCPF` array so that this voter person cannot vote again (Hint: use the .add method of the `ArrayList` class). This method should have a return type of `void`.
 
-- `mostrarResultado`: This public method is responsible for printing the election result, whether partial or final, to the console. It has a return type of `void` and does not receive any parameters. Firstly, this method should check if there is at least one vote computed, and if not, print the message `You must have at least one vote to show the result.` (translation: "It's necessary to have at least one vote to show the result.") to the console. If there are computed votes, it should print to the console the names of the candidates with the amount of votes they received and the percentage of votes they received, as well as the total number of computed votes.
+- `showResult`: This public method is responsible for printing the election result, whether partial or final, to the console. It has a return type of `void` and does not receive any parameters. Firstly, this method should check if there is at least one vote computed, and if not, print the message `You must have at least one vote to show the result.` (translation: "It's necessary to have at least one vote to show the result.") to the console. If there are computed votes, it should print to the console the names of the candidates with the amount of votes they received and the percentage of votes they received, as well as the total number of computed votes.
 
 Suppose we have two candidates: Maria and José. Maria received 2 votes and José received 1 vote. Here is how the output should look like:
 
 ```
     Name: Maria - 2 votes (67.0%)
-    Name: José - 1 vote (33.0%)
+    Name: José - 1 votes (33.0%)
     Total votes: 3
 ```
 
-- `calcularPorcentagemVotos`: This private method serves exclusively for this class. It is used to assist in calculating the percentage of votes. It returns a `double` type and receives a **parameter**. This parameter is an integer that represents the index **of** the object of the `PessoaCandidata` class in the `pessoasCandidatas` array, so that the number of votes received by that person can be retrieved and **divided** by the total number of votes computed stored in the `totalVotes` attribute. Since the `totalVotes` attribute and the number of votes of the candidate are of the integer type, these values must be converted to `float` or `double` type. To **round** the value to one decimal place, use the `round` static method of the `Math` class in Java.
+- `calculateVotePercentage`: This private method serves exclusively for this class. It is used to assist in calculating the percentage of votes. It returns a `double` type and receives a **parameter**. This parameter is an integer that represents the index **of** the object of the `CandidatePerson` class in the `candidatePeople` array, so that the number of votes received by that person can be retrieved and **divided** by the total number of votes computed stored in the `totalVotes` attribute. Since the `totalVotes` attribute and the number of votes of the candidate are of the integer type, these values must be converted to `float` or `double` type. To **round** the value to one decimal place, use the `round` static method of the `Math` class in Java.
 
-- `Pessoa`: This abstract class has only one protected attribute, `nome`, of type String. It also has the signatures of the `Getter` and `Setter` methods to require that the developer implements them in the inheriting classes.
+- `Person`: This abstract class has only one protected attribute, `name`, of type String. It also has the signatures of the `Getter` and `Setter` methods to require that the developer implements them in the inheriting classes.
 
-- `PessoaCandidata`: This class inherits from the `Pessoa` class and is responsible for representing the candidate. It is also composed of two private integer attributes, `number` and `votes`, with the `name` attribute inherited from the class `Person`. Its constructor receives two parameters, `name` and `number`, and stores them in their respective attributes. The constructor also initializes the `votes` attribute with a value of zero. This class contains the `Getters` and `Setters` methods for the `name`, `number`, and `votes` attributes, as well as a `receiveVote` method that adds 1 to the votos attribute every time it is called.
+- `CandidatePerson`: This class inherits from the `Person` class and is responsible for representing the candidate. It is also composed of two private integer attributes, `number` and `votes`, with the `name` attribute inherited from the class `Person`. Its constructor receives two parameters, `name` and `number`, and stores them in their respective attributes. The constructor also initializes the `votes` attribute with a value of zero. This class contains the `Getters` and `Setters` methods for the `name`, `number`, and `votes` attributes, as well as a `receiveVote` method that adds 1 to the votes attribute every time it is called.
 
 In summary, the `CandidatePerson` class is composed of:
 
-- `nome`: attribute inherited from the `Person` class;
+- `name`: attribute inherited from the `Person` class;
 
 - `number`: integer attribute that stores the identifier number for voting;
 
-- `votos`: integer attribute that stores the number of votes received by the candidate.
+- `votes`: integer attribute that stores the number of votes received by the candidate.
 
 The methods of this class are:
 
 - `getName`: `Getter` method for the `name` attribute;
 
-- `setNome`: `Setter` method for the `name` attribute;
+- `setName`: `Setter` method for the `name` attribute;
 
-- `getNumero`: `Getter` method for the `number` attribute;
+- `getNumber`: `Getter` method for the `number` attribute;
 
 - `setNumber`: `Setter` method for the `number` attribute;
 
 - `getVotes`: `Getter` method for the `votes` attribute;
 
-- `setVotos`: `Setter` method for the `votes` attribute;
+- `setVotes`: `Setter` method for the `votes` attribute;
 
 - `receiveVote`: method responsible for adding 1 to the `votes` attribute to represent the amount of votes received by the candidate, this method has a return type of `void`.
 
 Note that all methods of this class are public.
 
-- `VoterPerson`: This class inherits from the `Person` class, and is responsible for representing the voter. It also includes a private attribute of type String, `cpf`, and the `name` attribute is inherited from the `Person` class. Its constructor takes two parameters, `name` and `cpf`, and stores them in the respective attributes. This class also includes `Getter` and `Setter` methods for the nome and cpf attributes.
+- `VoterPerson`: This class inherits from the `Person` class, and is responsible for representing the voter. It also includes a private attribute of type String, `cpf`, and the `name` attribute is inherited from the `Person` class. Its constructor takes two parameters, `name` and `cpf`, and stores them in the respective attributes. This class also includes `Getter` and `Setter` methods for the name and cpf attributes.
 
 In summary, the `VoterPerson` class is formed by:
 
-- `nome`: an attribute inherited from the `Person` class;
+- `name`: an attribute inherited from the `Person` class;
 
 - `cpf`: an attribute of type String that stores the voter's CPF;
 
@@ -277,7 +278,7 @@ Enter the number corresponding to the desired option:
 Enter the name of the voting person:
 John
 Enter the voter's CPF number:
-154,118,560-94
+154.118.560-94
 Register voter?
 1 - Yes
 2 - No
@@ -286,7 +287,7 @@ Enter the number corresponding to the desired option:
 Enter the name of the voting person:
 Ruth
 Enter the voter's CPF number:
-589,292,640-00
+589.292.640-00
 Register voter?
 1 - Yes
 2 - No
@@ -295,7 +296,7 @@ Enter the number corresponding to the desired option:
 Enter the name of the voting person:
 Raquel
 Enter the voter's CPF number:
-023,476,580-18
+023.476.580-18
 Register voter?
 1 - Yes
 2 - No
@@ -311,7 +312,7 @@ Enter the number corresponding to the desired option:
 3 - Finalize Voting
 1
 Enter the voter's CPF number:
-154,118,560-94
+154.118.560-94
 Enter the applicant's number:
 1
 Enter the number corresponding to the desired option:
@@ -320,7 +321,7 @@ Enter the number corresponding to the desired option:
 3 - Finalize Voting
 1
 Enter the voter's CPF number:
-589,292,640-00
+589.292.640-00
 Enter the applicant's number:
 1
 Enter the number corresponding to the desired option:
@@ -329,7 +330,7 @@ Enter the number corresponding to the desired option:
 3 - Finalize Voting
 1
 Enter the voter's CPF number:
-023,476,580-18
+023.476.580-18
 Enter the applicant's number:
 2
 Enter the number corresponding to the desired option:
